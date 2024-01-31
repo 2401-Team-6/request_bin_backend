@@ -5,7 +5,7 @@ const uri = 'mongodb://127.0.0.1:27017';
 const client = new mongo.MongoClient(uri);
 
 async function createRequest(headers, body) {
-  id = '';
+  let id = '';
   try {
     await client.connect();
 
@@ -17,7 +17,7 @@ async function createRequest(headers, body) {
       body,
     };
 
-    result = await collection.insertOne(doc);
+    const result = await collection.insertOne(doc);
     id = result.insertedId.toString();
   } catch (e) {
     console.log(e);
