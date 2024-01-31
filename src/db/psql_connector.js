@@ -38,13 +38,9 @@ async function getRequests(id) {
   return requests;
 }
 
-function getRequest(id) {
-  return request[id];
-}
 
 module.exports = {
   createRequest,
-  getRequest ,
   createEndpoint,
   getEndpointId,
   getRequests,

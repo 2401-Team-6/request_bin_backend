@@ -54,7 +54,8 @@ app.get('/api/:name', async (req, res, next) => {
 
 // selects individual request
 app.get('/api/:name/:id', async (req, res, next) => {
-
+  const { name, id } = req.params;
+  const request = await mongo.getRequest(id);
 });
 
 app.listen(port, () => {

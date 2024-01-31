@@ -28,4 +28,17 @@ async function createRequest(headers, body) {
   return id;
 }
 
-module.exports = { createRequest };
+async function getRequest(id) {
+  await client.connect();
+
+  const database = client.db('requestsDB');
+  const collection = database.collection('requests');
+
+  const objectId = new mongo.ObjectId(id);
+
+  const result = await collection.findOne({ _id: objectId });
+
+  return result;
+}
+
+module.exports = { createRequest, getRequest };
