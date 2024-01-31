@@ -5,11 +5,12 @@ async function createRequest(mongoId, method, path, endpointId) {
   const client = new Client();
 
   await client.connect();
-  await client.query(
-    'INSERT INTO requests (mongo_id, method, path, endpoint_id) VALUES ($1, $2, $3, $4)',
+  response = await client.query(
+    'INSERT INTO requests (mongo_id, method, path, endpoint_id) VALUES ($1, $2, $3, $4) RETURNING created',
     [mongoId, method, path, endpointId]
   );
   await client.end();
+  return response.rows[0].created;
 }
 
 async function getEndpointId(name) {

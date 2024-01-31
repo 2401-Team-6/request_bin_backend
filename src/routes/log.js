@@ -6,6 +6,8 @@ const mongo = require('../db/mongo_connector');
 
 router.use(express.text({ type: '*/*' }));
 
+const { messageAll } = require('./ws');
+
 // logs all types of requests to endpoint
 router.all(['/:name', '/:name/*'], async (req, res, next) => {
   const { name } = req.params;
@@ -21,12 +23,19 @@ router.all(['/:name', '/:name/*'], async (req, res, next) => {
       req.body,
       loggerId
     );
-    await logger.createRequest(requestId, req.method, path, loggerId);
+    created = await logger.createRequest(requestId, req.method, path, loggerId);
 
     console.log(
       `New Request for ${name}:`,
       `${req.method} ${path} - MONGO(${requestId})`
     );
+
+    messageAll(name, {
+      id: requestId,
+      method: req.method,
+      path,
+      created,
+    });
 
     res.status(200).json();
   } catch (err) {
