@@ -7,8 +7,6 @@ const port = 3000;
 const logger = require('./src/db/psql_connector');
 const mongo = require('./src/db/mongo_connector');
 
-const { nanoid } = require('nanoid');
-
 app.use('/log', require('./src/routes/log'));
 app.use('/api', require('./src/routes/api'));
 
