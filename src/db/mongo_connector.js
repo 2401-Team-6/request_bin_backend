@@ -4,41 +4,43 @@ const uri = 'mongodb://127.0.0.1:27017';
 
 const client = new mongo.MongoClient(uri);
 
-async function createRequest(headers, body) {
+const database = client.db('requestsDB');
+const collection = database.collection('requests');
+
+async function createRequest(headers, body, endpoint) {
   let id = '';
   try {
-    await client.connect();
-
-    const database = client.db('requestsDB');
-    const collection = database.collection('requests');
 
     const doc = {
       headers,
       body,
+      endpoint,
     };
 
     const result = await collection.insertOne(doc);
     id = result.insertedId.toString();
   } catch (e) {
     console.log(e);
-  } finally {
-    await client.close();
   }
-
   return id;
 }
 
 async function getRequest(id) {
-  await client.connect();
-
-  const database = client.db('requestsDB');
-  const collection = database.collection('requests');
-
   const objectId = new mongo.ObjectId(id);
-
   const result = await collection.findOne({ _id: objectId });
 
   return result;
 }
 
-module.exports = { createRequest, getRequest };
+async function deleteRequest(id) {
+  const objectId = new mongo.ObjectId(id);
+  console.log(objectId);
+
+  await collection.deleteOne({ _id: objectId });
+}
+
+function deleteAll(endpoint) {
+  collection.deleteMany( { endpoint });
+}
+
+module.exports = { createRequest, getRequest, deleteRequest, deleteAll };
