@@ -36,9 +36,10 @@ async function createEndpoint(name) {
 
 async function getRequests(id) {
   const response = await client.query(
-    'SELECT mongo_id, method, path, created FROM requests WHERE endpoint_id = $1',
+    'SELECT mongo_id, method, path, created FROM requests WHERE endpoint_id = $1 ORDER BY created DESC',
     [id]
   );
+  console.log(response.rows);
   const requests = response.rows.map((row) => {
     return {
       id: row.mongo_id,
