@@ -26,8 +26,10 @@ function messageAll(endpoint, update) {
     return;
   }
 
+  const message = JSON.stringify(update);
+
   sockets[endpoint].forEach((ws) => {
-    ws.send(JSON.stringify(update));
+    ws.send(message);
   });
 }
 
