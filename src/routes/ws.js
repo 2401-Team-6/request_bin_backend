@@ -3,13 +3,13 @@ const router = express.Router();
 
 const sockets = {};
 
-router.ws(':name', (ws, req) => {
+router.ws('/:name', (ws, req) => {
   const { name } = req.params;
 
   if (!sockets[name]) {
     sockets[name] = [];
   }
-  sockest[name].push(ws);
+  sockets[name].push(ws);
 
   console.log(`Connect to ws ${name}: ${sockets[name].length} connections`);
 
