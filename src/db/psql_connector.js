@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 const client = new Pool();
 
 async function createRequest(mongoId, method, path, endpointId) {
-  response = await client.query(
+  const response = await client.query(
     'INSERT INTO requests (mongo_id, method, path, endpoint_id) VALUES ($1, $2, $3, $4) RETURNING created',
     [mongoId, method, path, endpointId]
   );
