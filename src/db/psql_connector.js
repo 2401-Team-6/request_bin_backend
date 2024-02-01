@@ -25,6 +25,18 @@ async function getEndpointId(name) {
   return response.rows[0]?.id;
 }
 
+async function getEndpoint(name) {
+  const client = new Client();
+
+  await client.connect();
+  const response = await client.query(
+    'SELECT * FROM endpoints WHERE name = $1',
+    [name]
+  );
+  await client.end();
+  return response.rows[0];
+}
+
 async function createEndpoint(name) {
   const client = new Client();
 
@@ -79,4 +91,5 @@ module.exports = {
   getRequests,
   deleteRequest,
   deleteAll,
+  getEndpoint,
 };

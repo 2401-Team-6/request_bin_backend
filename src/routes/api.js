@@ -18,6 +18,26 @@ router.post('/new', async (req, res, next) => {
   }
 });
 
+router.get('/endpoint/:name', async (req, res, next) => {
+  const { name } = req.params;
+  try {
+    const endpoint = await logger.getEndpoint(name);
+    if (!endpoint) {
+      return res.status(404).json({ error: 'Object not found' });
+    }
+
+    console.log(`Endpoint ${name} checked`);
+    res.status(200).json({
+      id: endpoint.id,
+      created: endpoint.created,
+      hash: endpoint.name,
+    });
+  } catch (err) {
+    console.error('Could not connect to Postgres?', err);
+    res.status(400).json({ error: 'Something went wrong' });
+  }
+});
+
 // selects different endpoint
 router.get('/:name', async (req, res, next) => {
   const { name } = req.params;
