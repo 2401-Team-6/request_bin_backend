@@ -15,3 +15,5 @@ CREATE TABLE requests (
   method varchar(10) NOT NULL,
   path varchar(50) NOT NULL
 );
+
+CREATE INDEX request_endpoint_created ON requests (endpoint_id, created DESC);
