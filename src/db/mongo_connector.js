@@ -7,13 +7,14 @@ const client = new mongo.MongoClient(uri);
 const database = client.db('requestsDB');
 const collection = database.collection('requests');
 
-async function createRequest(headers, body, endpoint) {
+async function createRequest(headers, body, query, endpoint) {
   let id = '';
   try {
 
     const doc = {
       headers,
       body,
+      query,
       endpoint,
     };
 

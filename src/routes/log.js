@@ -21,6 +21,7 @@ router.all(['/:name', '/:name/*'], async (req, res, next) => {
     const requestId = await mongo.createRequest(
       req.headers,
       req.body,
+      req.query,
       loggerId
     );
     created = await logger.createRequest(requestId, req.method, path, loggerId);
